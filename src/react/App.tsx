@@ -1,12 +1,12 @@
 import React from 'react'
-import { styled } from 'styled-components'
-
-const S = styled.div`
-  background-color: aliceblue;
-`
+import Cool from './components/Cool'
 
 const App = () => {
-  return <S>Hi</S>
+  return (
+    <React.StrictMode>
+      <Cool />
+    </React.StrictMode>
+  )
 }
 
 export default App
