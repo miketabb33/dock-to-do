@@ -1,8 +1,12 @@
+/* eslint-disable no-undef */
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  entry: { server: './src/server.ts', 'public/bundle': './src/react/index.ts' },
+  entry: {
+    server: './src/server.ts',
+    'public/bundle': './src/react/index.tsx',
+  },
   target: 'node',
   devtool: 'inline-source-map',
   module: {
