@@ -1,10 +1,13 @@
 import React from 'react'
-import Cool from './components/Cool'
+import Layout from './components/Layout'
+import ToDoPage from './pages/ToDoPage'
 
 const App = () => {
   return (
     <React.StrictMode>
-      <Cool />
+      <Layout>
+        <ToDoPage />
+      </Layout>
     </React.StrictMode>
   )
 }
