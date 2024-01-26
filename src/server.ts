@@ -17,6 +17,12 @@ app.get('/api/todo', (req, res) => {
   res.json(toDoList)
 })
 
+app.post('/api/todo', (req, res) => {
+  setTimeout(() => {
+    res.json({ cool: 'Sup Baby!' })
+  }, 2000)
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'))
 })

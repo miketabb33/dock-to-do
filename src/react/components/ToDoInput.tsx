@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import Plus from '../Plus'
 import { styles } from '../styles'
-import { useLoadingContext } from '../context/LoadingContext'
+import { useAutoLoading } from '../context/LoadingContext'
+import { useApi } from '../network/useApi'
 
 const Container = styled.div`
   position: relative;
@@ -37,11 +38,16 @@ const Button = styled.button`
 `
 
 const ToDoInput = () => {
-  const { show } = useLoadingContext()
+  const { makeRequest, isLoading } = useApi({
+    path: 'api/todo',
+    method: 'POST',
+  })
+  useAutoLoading(isLoading)
+
   return (
     <Container>
       <Input />
-      <Button onClick={show}>
+      <Button onClick={makeRequest}>
         <Plus />
       </Button>
     </Container>

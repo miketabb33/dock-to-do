@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useAsync } from '../network/useAuthRequest'
+import { useComponentRequest } from '../network/useApi'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { styles } from '../styles'
+import { useAutoLoading } from '../context/LoadingContext'
 
 const Container = styled.div`
   background-color: ${styles.gray1};
@@ -26,7 +27,10 @@ const Item = styled.p`
 `
 
 const ToDoList = () => {
-  const { data: toDoList } = useAsync<ToDoDto[]>()
+  const { data: toDoList, isLoading } =
+    useComponentRequest<ToDoDto[]>('/api/todo')
+  useAutoLoading(isLoading)
+
   return (
     <Container>
       <List>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createContext, useContext, useState } from 'react'
 import { ChildrenProps } from '../types/ChildrenProps'
 
@@ -28,6 +28,14 @@ const LoadingContextProvider = ({ children }: ChildrenProps) => {
       {children}
     </LoadingContext.Provider>
   )
+}
+
+export const useAutoLoading = (isLoading: boolean) => {
+  const { show, hide } = useLoadingContext()
+  useEffect(() => {
+    if (isLoading) show()
+    else hide()
+  }, [isLoading])
 }
 
 export default LoadingContextProvider
