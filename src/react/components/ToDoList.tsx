@@ -2,19 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 import { useAsync } from '../network/useAuthRequest'
 import { ToDoDto } from '../../dto/ToDoDto'
+import { styles } from '../styles'
 
 const Container = styled.div`
-  background-color: #eee;
-  border: 1px solid #bbb;
+  background-color: ${styles.gray1};
+  border: ${styles.border};
   padding: 1rem;
   border-radius: 3px;
   max-width: 60rem;
-  margin: auto;
+  width: 100%;
 `
 
 const List = styled.div`
   :not(:last-child) {
-    border-bottom: 1px solid #bbb;
+    border-bottom: ${styles.border};
   }
 `
 
