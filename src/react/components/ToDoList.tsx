@@ -13,16 +13,14 @@ const Container = styled.div`
   width: 100%;
 `
 
-const List = styled.div`
-  :not(:last-child) {
-    border-bottom: ${styles.border};
-  }
-`
-
 const Item = styled.p`
   font-size: 2rem;
   padding: 1rem;
   text-transform: capitalize;
+
+  &:not(:last-child) {
+    border-bottom: ${styles.border};
+  }
 `
 
 type ToDoListProps = {
@@ -32,11 +30,9 @@ type ToDoListProps = {
 const ToDoList = ({ toDoList }: ToDoListProps) => {
   return (
     <Container>
-      <List>
-        {toDoList?.map((item) => (
-          <Item key={item.id}>{item.message}</Item>
-        ))}
-      </List>
+      {toDoList?.map((item) => (
+        <Item key={item.id}>{item.message}</Item>
+      ))}
     </Container>
   )
 }
