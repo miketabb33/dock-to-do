@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from '../components/Title'
-import ToDoList from '../components/ToDoList'
-import ToDoInput from '../components/ToDoInput'
+import ToDoList, { useWithToDoList } from '../components/ToDoList'
+import ToDoInput, { useWithToDoInput } from '../components/ToDoInput'
 import styled from 'styled-components'
 import Loading from '../components/Loading'
 
@@ -13,11 +13,16 @@ const Container = styled.div`
 `
 
 const ToDoPage = () => {
+  const { refresh, toDoList, isToDoLoading } = useWithToDoList()
+  const { inputBind, isPostLoading } = useWithToDoInput(refresh)
+  const isLoading = isPostLoading || isToDoLoading
+
   return (
     <Container>
+      {isLoading && <Loading />}
       <Title />
-      <ToDoList />
-      <ToDoInput />
+      <ToDoList toDoList={toDoList} />
+      <ToDoInput {...inputBind} />
     </Container>
   )
 }

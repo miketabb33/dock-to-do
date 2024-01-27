@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { useComponentRequest } from '../network/useApi'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { styles } from '../styles'
-import { useAutoLoading } from '../context/LoadingContext'
 
 const Container = styled.div`
   background-color: ${styles.gray1};
@@ -26,11 +25,11 @@ const Item = styled.p`
   text-transform: capitalize;
 `
 
-const ToDoList = () => {
-  const { data: toDoList, isLoading } =
-    useComponentRequest<ToDoDto[]>('/api/todo')
-  useAutoLoading(isLoading)
+type ToDoListProps = {
+  toDoList: ToDoDto[] | null
+}
 
+const ToDoList = ({ toDoList }: ToDoListProps) => {
   return (
     <Container>
       <List>
@@ -40,6 +39,15 @@ const ToDoList = () => {
       </List>
     </Container>
   )
+}
+
+export const useWithToDoList = () => {
+  const {
+    data: toDoList,
+    isLoading: isToDoLoading,
+    refresh,
+  } = useComponentRequest<ToDoDto[]>('/api/todo')
+  return { toDoList, isToDoLoading, refresh: () => refresh({}) }
 }
 
 export default ToDoList

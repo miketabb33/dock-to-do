@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Plus from '../Plus'
 import { styles } from '../styles'
-import { useAutoLoading } from '../context/LoadingContext'
-import { useApi } from '../network/useApi'
+import { MakeRequest, useApi } from '../network/useApi'
 
 const Container = styled.div`
   position: relative;
-  max-width: 20rem;
+  max-width: 30rem;
   width: 100%;
   overflow: hidden;
 `
@@ -41,21 +40,48 @@ type CreateTodo = {
   message: string
 }
 
-const ToDoInput = () => {
-  const { makeRequest, isLoading } = useApi<null>({
-    path: 'api/todo',
-    method: 'POST',
-  })
-  useAutoLoading(isLoading)
+type ToDoInputProps = {
+  input: string
+  setInput: (value: string) => void
+  onClick: () => void
+}
 
+const ToDoInput = ({ input, setInput, onClick }: ToDoInputProps) => {
   return (
     <Container>
-      <Input />
-      <Button onClick={() => makeRequest<CreateTodo>({ message: 'thing' })}>
+      <Input value={input} onChange={(e) => setInput(e.target.value)} />
+      <Button onClick={onClick}>
         <Plus />
       </Button>
     </Container>
   )
+}
+
+export const useWithToDoInput = (onComplete: () => void) => {
+  const [input, setInput] = useState('')
+
+  const { makeRequest, isLoading } = useApi<null>({
+    path: 'api/todo',
+    method: 'POST',
+  })
+
+  const onClick = () => {
+    if (input.length >= 3) {
+      makeRequest<CreateTodo>({ body: { message: input }, onComplete })
+      setInput('')
+    } else {
+      alert('To do needs to be at least 3 characters')
+    }
+  }
+
+  return {
+    isPostLoading: isLoading,
+    inputBind: {
+      input,
+      setInput,
+      onClick,
+    },
+  }
 }
 
 export default ToDoInput

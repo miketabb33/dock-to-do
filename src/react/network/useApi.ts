@@ -5,6 +5,11 @@ type UseApiArgs = {
   method?: 'POST' | 'GET'
 }
 
+export type MakeRequest<B> = {
+  body?: B
+  onComplete?: () => void
+}
+
 export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(method === 'GET')
@@ -19,7 +24,8 @@ export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
     const json = await response.json()
     return json
   }
-  const makeRequest = <B>(body?: B) => {
+
+  const makeRequest = <B>({ body, onComplete }: MakeRequest<B>) => {
     setIsLoading(true)
     fetchApi(body)
       .then((res) => {
@@ -28,7 +34,10 @@ export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
       .catch((err: any) => {
         console.log(err)
       })
-      .finally(() => setIsLoading(false))
+      .finally(() => {
+        if (onComplete) onComplete()
+        setIsLoading(false)
+      })
   }
 
   return { data, isLoading, makeRequest }
@@ -36,6 +45,6 @@ export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
 
 export const useComponentRequest = <T>(path: string) => {
   const { data, isLoading, makeRequest } = useApi<T>({ path, method: 'GET' })
-  useEffect(makeRequest, [])
+  useEffect(() => makeRequest({}), [])
   return { data, isLoading, refresh: makeRequest }
 }

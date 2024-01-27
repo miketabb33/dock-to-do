@@ -2,14 +2,15 @@ import express from 'express'
 import path from 'path'
 import { ToDoDto } from './dto/ToDoDto'
 import bodyParser from 'body-parser'
+import { uuid } from './uuid'
 
 const app = express()
 const port = 3000
 
 const toDoList: ToDoDto[] = [
-  { id: '1', message: 'Do Dishes' },
-  { id: '2', message: 'Clean Car' },
-  { id: '3', message: 'solve World Hunger' },
+  { id: uuid(), message: 'Do Dishes' },
+  { id: uuid(), message: 'Clean Car' },
+  { id: uuid(), message: 'solve World Hunger' },
 ]
 
 app.use(express.static(`${__dirname}/public`))
@@ -17,18 +18,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/api/todo', (req, res) => {
-  setTimeout(() => {
-    res.json(toDoList)
-  }, 2000)
+  res.json(toDoList)
 })
 
 app.post('/api/todo', (req, res) => {
   if (req.body.message) {
-    toDoList.push({ id: '4', message: req.body.message })
+    toDoList.push({ id: uuid(), message: req.body.message })
+    res.sendStatus(200)
+  } else {
+    res.sendStatus(400)
   }
-  setTimeout(() => {
-    res.json({ cool: 'Sup Baby!' })
-  }, 2000)
 })
 
 app.get('*', (_, res) => {
