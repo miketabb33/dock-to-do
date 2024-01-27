@@ -37,8 +37,12 @@ const Button = styled.button`
   border-bottom-right-radius: ${styles.borderRadius};
 `
 
+type CreateTodo = {
+  message: string
+}
+
 const ToDoInput = () => {
-  const { makeRequest, isLoading } = useApi({
+  const { makeRequest, isLoading } = useApi<null>({
     path: 'api/todo',
     method: 'POST',
   })
@@ -47,7 +51,7 @@ const ToDoInput = () => {
   return (
     <Container>
       <Input />
-      <Button onClick={makeRequest}>
+      <Button onClick={() => makeRequest<CreateTodo>({ message: 'thing' })}>
         <Plus />
       </Button>
     </Container>

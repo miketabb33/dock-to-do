@@ -9,14 +9,19 @@ export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
   const [data, setData] = useState<T | null>(null)
   const [isLoading, setIsLoading] = useState(method === 'GET')
 
-  const fetchApi = async () => {
-    const response = await fetch(path, { method })
+  const fetchApi = async <B>(bodyData?: B) => {
+    const body = bodyData ? { body: JSON.stringify(bodyData) } : undefined
+    const response = await fetch(path, {
+      ...body,
+      method,
+      headers: { 'content-type': 'application/json' },
+    })
     const json = await response.json()
     return json
   }
-  const makeRequest = () => {
+  const makeRequest = <B>(body?: B) => {
     setIsLoading(true)
-    fetchApi()
+    fetchApi(body)
       .then((res) => {
         setData(res as T)
       })
