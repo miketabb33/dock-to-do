@@ -1,5 +1,5 @@
 export const uuid = () => {
-  var d = new Date().getTime() //Timestamp
+  var d = new Date().getTime()
   var d2 =
     (typeof performance !== 'undefined' &&
       performance.now &&

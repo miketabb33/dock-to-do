@@ -6,7 +6,7 @@ import { uuid } from '../uuid'
 import { sendResponse } from './sendServerResponse'
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 const toDoList: ToDoDto[] = [
   { id: uuid(), message: 'Do Dishes' },
