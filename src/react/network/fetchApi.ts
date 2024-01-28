@@ -1,3 +1,5 @@
+import { ResponseDto } from '../../dto/ResponseDto'
+
 type RestMethod = 'POST' | 'GET' | 'DELETE' | 'PUT'
 
 type FetchApiArgs<B> = {
@@ -10,7 +12,7 @@ export const fetchApi = async <B = {}>({
   path,
   method = 'GET',
   body: bodyData,
-}: FetchApiArgs<B>) => {
+}: FetchApiArgs<B>): Promise<ResponseDto> => {
   const body = bodyData ? { body: JSON.stringify(bodyData) } : undefined
   const response = await fetch(path, {
     ...body,
@@ -18,6 +20,6 @@ export const fetchApi = async <B = {}>({
     headers: { 'content-type': 'application/json' },
   })
 
-  const json = await response.json()
+  const json: ResponseDto = await response.json()
   return json
 }

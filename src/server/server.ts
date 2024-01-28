@@ -1,8 +1,9 @@
 import express from 'express'
 import path from 'path'
-import { ToDoDto } from './dto/ToDoDto'
+import { ToDoDto } from '../dto/ToDoDto'
 import bodyParser from 'body-parser'
-import { uuid } from './uuid'
+import { uuid } from '../uuid'
+import { sendResponse } from './sendServerResponse'
 
 const app = express()
 const port = 3000
@@ -17,17 +18,17 @@ app.use(express.static(`${__dirname}/public`))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/api/todo', (req, res) => {
-  res.json(toDoList)
+app.get('/api/todo', (_, res) => {
+  sendResponse({ res, code: 200, data: toDoList })
 })
 
 app.post('/api/todo', (req, res) => {
   const message = req.body.message
   if (message) {
     toDoList.push({ id: uuid(), message })
-    res.sendStatus(200)
+    sendResponse({ res, code: 200 })
   } else {
-    res.sendStatus(400)
+    sendResponse({ res, code: 400, error: 'Bad Endpoint' })
   }
 })
 
@@ -37,9 +38,9 @@ app.delete('/api/todo/:id/delete', (req, res) => {
     const index = toDoList.findIndex((x) => x.id === id)
     if (index >= 0) {
       toDoList.splice(index, 1)
-      res.sendStatus(200)
-    } else res.sendStatus(404)
-  } else res.sendStatus(400)
+      sendResponse({ res, code: 200 })
+    } else sendResponse({ res, code: 404, error: 'To do item not found' })
+  } else sendResponse({ res, code: 400, error: 'Bad Endpoint' })
 })
 
 app.put('/api/todo/:id/edit', (req, res) => {
@@ -50,9 +51,9 @@ app.put('/api/todo/:id/edit', (req, res) => {
     const index = toDoList.findIndex((x) => x.id === id)
     if (index >= 0) {
       toDoList[index].message = message
-      res.sendStatus(200)
-    } else res.sendStatus(404)
-  } else res.sendStatus(400)
+      sendResponse({ res, code: 200 })
+    } else sendResponse({ res, code: 404, error: 'To do item not found' })
+  } else sendResponse({ res, code: 400, error: 'Bad Endpoint' })
 })
 
 app.get('*', (_, res) => {

@@ -9,7 +9,7 @@ export const useApi = <T>(path: string) => {
     setIsLoading(true)
     fetchApi({ path })
       .then((res) => {
-        setData(res as T)
+        setData(res.data as T)
       })
       .catch((err: any) => {
         console.error(err)

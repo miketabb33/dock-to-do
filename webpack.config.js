@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    server: './src/server.ts',
+    server: './src/server/server.ts',
     'public/bundle': './src/react/index.tsx',
   },
   target: 'node',
