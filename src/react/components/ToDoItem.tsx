@@ -85,7 +85,7 @@ const useInToDoItem = (item: ToDoDto) => {
   const [isEditing, setIsEditing] = useState(false)
   const toggleEdit = () => setIsEditing((prev) => !prev)
   const { deleteToDo } = useToDoContext()
-  const editToDoInput = useEditToDoInput(item.message, toggleEdit)
+  const editToDoInput = useEditToDoInput(item, toggleEdit)
   return { isEditing, editToDoInput, toggleEdit, deleteToDo }
 }
 

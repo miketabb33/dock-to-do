@@ -6,6 +6,7 @@ import {
   createToDoPost,
   deleteToDoPost,
   getToDos,
+  updateToDoPut,
 } from '../network/client'
 
 type ToDoContextValue = {
@@ -14,6 +15,7 @@ type ToDoContextValue = {
   isLoading: boolean
   deleteToDo: (id: string) => void
   createToDo: (body: ToDoBody) => void
+  updateToDo: (id: string, body: ToDoBody) => void
 }
 
 const ToDoContext = createContext<ToDoContextValue>({
@@ -22,6 +24,7 @@ const ToDoContext = createContext<ToDoContextValue>({
   isLoading: false,
   deleteToDo: () => {},
   createToDo: () => {},
+  updateToDo: () => {},
 })
 
 const ToDoContextProvider = ({ children }: ChildrenProps) => {
@@ -45,6 +48,14 @@ const ToDoContextProvider = ({ children }: ChildrenProps) => {
     })
   }
 
+  const updateToDo = (id: string, body: ToDoBody) => {
+    setIsActionLoading(true)
+    updateToDoPut(id, body).finally(() => {
+      setIsActionLoading(false)
+      refresh()
+    })
+  }
+
   return (
     <ToDoContext.Provider
       value={{
@@ -53,6 +64,7 @@ const ToDoContextProvider = ({ children }: ChildrenProps) => {
         isLoading: isGetLoading || isActionLoading,
         deleteToDo,
         createToDo,
+        updateToDo,
       }}
     >
       {children}

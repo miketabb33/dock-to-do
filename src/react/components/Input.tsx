@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { styles } from '../styles'
 import Icon, { IconName } from './Icon'
 import { useToDoContext } from '../contexts/ToDoProvider'
+import { ToDoDto } from '../../dto/ToDoDto'
 
 const Container = styled.div`
   position: relative;
@@ -59,13 +60,15 @@ const Input = ({ value, setValue, onClick, iconName }: InputProps) => {
 }
 
 export const useEditToDoInput = (
-  initValue: string,
+  item: ToDoDto,
   onComplete: () => void
 ): InputProps => {
-  const [value, setValue] = useState(initValue)
+  const { updateToDo } = useToDoContext()
+  const [value, setValue] = useState(item.message)
 
   const submitToDo = () => {
     if (value.length >= 3) {
+      updateToDo(item.id, { message: value })
       onComplete()
     } else {
       alert('To do needs to be at least 3 characters')

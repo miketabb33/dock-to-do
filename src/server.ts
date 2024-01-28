@@ -42,6 +42,19 @@ app.delete('/api/todo/:id/delete', (req, res) => {
   } else res.sendStatus(400)
 })
 
+app.put('/api/todo/:id/edit', (req, res) => {
+  const id = req.params.id
+  const message = req.body.message
+
+  if (id && message) {
+    const index = toDoList.findIndex((x) => x.id === id)
+    if (index >= 0) {
+      toDoList[index].message = message
+      res.sendStatus(200)
+    } else res.sendStatus(404)
+  } else res.sendStatus(400)
+})
+
 app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '/index.html'))
 })

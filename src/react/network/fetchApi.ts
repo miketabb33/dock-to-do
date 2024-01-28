@@ -1,4 +1,4 @@
-type RestMethod = 'POST' | 'GET' | 'DELETE'
+type RestMethod = 'POST' | 'GET' | 'DELETE' | 'PUT'
 
 type FetchApiArgs<B> = {
   path: string
@@ -17,6 +17,7 @@ export const fetchApi = async <B = {}>({
     method,
     headers: { 'content-type': 'application/json' },
   })
+
   const json = await response.json()
   return json
 }

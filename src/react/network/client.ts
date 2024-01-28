@@ -10,8 +10,16 @@ export type ToDoBody = {
   message: string
 }
 
-export const createToDoPost = (createTodoBody: ToDoBody) => {
-  return fetchApi({ path: 'api/todo', method: 'POST', body: createTodoBody })
+export const createToDoPost = (todoBody: ToDoBody) => {
+  return fetchApi({ path: 'api/todo', method: 'POST', body: todoBody })
+}
+
+export const updateToDoPut = (id: string, todoBody: ToDoBody) => {
+  return fetchApi({
+    path: `api/todo/${id}/edit`,
+    method: 'PUT',
+    body: todoBody,
+  })
 }
 
 export const deleteToDoPost = (id: string) => {
