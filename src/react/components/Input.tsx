@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { styles } from '../styles'
 import Icon from './Icon'
-import { createToDo } from '../network/client'
+import { useToDoContext } from '../contexts/ToDoProvider'
 
 const Container = styled.div`
   position: relative;
-  max-width: 30rem;
   width: 100%;
-  overflow: hidden;
 `
 
-const Input = styled.input`
+const InputWrapper = styled.input`
   border-radius: ${styles.borderRadius};
   border: ${styles.border};
   padding: 1rem 1.5rem;
@@ -42,16 +40,16 @@ const Plus = styled(Icon)`
   height: 2rem;
 `
 
-type ToDoInputProps = {
-  input: string
-  setInput: (value: string) => void
+type InputProps = {
+  value: string
+  setValue: (value: string) => void
   onClick: () => void
 }
 
-const ToDoInput = ({ input, setInput, onClick }: ToDoInputProps) => {
+const Input = ({ value, setValue, onClick }: InputProps) => {
   return (
     <Container>
-      <Input value={input} onChange={(e) => setInput(e.target.value)} />
+      <InputWrapper value={value} onChange={(e) => setValue(e.target.value)} />
       <Button onClick={onClick}>
         <Plus iconName="plus" />
       </Button>
@@ -59,26 +57,24 @@ const ToDoInput = ({ input, setInput, onClick }: ToDoInputProps) => {
   )
 }
 
-export const useWithToDoInput = (onComplete: () => void) => {
+export const useAddToDoInput = (): InputProps => {
+  const { createToDo } = useToDoContext()
   const [value, setValue] = useState('')
 
   const submitToDo = () => {
     if (value.length >= 3) {
-      createToDo({ message: value })
       setValue('')
-      onComplete()
+      createToDo({ message: value })
     } else {
       alert('To do needs to be at least 3 characters')
     }
   }
 
   return {
-    inputBind: {
-      input: value,
-      setInput: setValue,
-      onClick: submitToDo,
-    },
+    value,
+    setValue,
+    onClick: submitToDo,
   }
 }
 
-export default ToDoInput
+export default Input

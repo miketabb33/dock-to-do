@@ -1,9 +1,10 @@
 import React from 'react'
 import Title from '../components/Title'
-import ToDoList, { useWithToDoList } from '../components/ToDoList'
-import ToDoInput, { useWithToDoInput } from '../components/ToDoInput'
+import ToDoList from '../components/ToDoList'
+import Input, { useAddToDoInput } from '../components/Input'
 import styled from 'styled-components'
 import Loading from '../components/Loading'
+import { useToDoContext } from '../contexts/ToDoProvider'
 
 const Container = styled.div`
   display: flex;
@@ -12,17 +13,23 @@ const Container = styled.div`
   gap: 3rem;
 `
 
+const AddToDoContainer = styled.div`
+  max-width: 40rem;
+  width: 100%;
+`
+
 const ToDoPage = () => {
-  const { refresh, toDoList, isToDoLoading } = useWithToDoList()
-  const { inputBind } = useWithToDoInput(refresh)
-  const isLoading = isToDoLoading
+  const addToDoInput = useAddToDoInput()
+  const { isLoading } = useToDoContext()
 
   return (
     <Container>
       {isLoading && <Loading />}
       <Title />
-      <ToDoList toDoList={toDoList} refresh={refresh} />
-      <ToDoInput {...inputBind} />
+      <ToDoList />
+      <AddToDoContainer>
+        <Input {...addToDoInput} />
+      </AddToDoContainer>
     </Container>
   )
 }

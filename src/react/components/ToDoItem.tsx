@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { styles } from '../styles'
 import { ToDoDto } from '../../dto/ToDoDto'
 import Icon from './Icon'
-import { deleteToDo } from '../network/client'
+import { useToDoContext } from '../contexts/ToDoProvider'
 
 const Container = styled.div`
   display: flex;
@@ -53,13 +53,10 @@ const Button = styled.button`
 
 type ToDoItemProps = {
   item: ToDoDto
-  refresh: () => void
 }
 
-const ToDoItem = ({ item, refresh }: ToDoItemProps) => {
-  const deleteItem = () => {
-    deleteToDo(item.id).finally(refresh)
-  }
+const ToDoItem = ({ item }: ToDoItemProps) => {
+  const { deleteToDo } = useToDoContext()
 
   return (
     <Container>
@@ -67,7 +64,7 @@ const ToDoItem = ({ item, refresh }: ToDoItemProps) => {
       <Button>
         <Edit iconName="edit" />
       </Button>
-      <Button onClick={deleteItem}>
+      <Button onClick={() => deleteToDo(item.id)}>
         <Trash iconName="trash" />
       </Button>
     </Container>

@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ToDoDto } from '../../dto/ToDoDto'
 import { styles } from '../styles'
 import ToDoItem, { NoToDoItem } from './ToDoItem'
-import { getToDos } from '../network/client'
+import { useToDoContext } from '../contexts/ToDoProvider'
 
 const Container = styled.div`
   background-color: ${styles.gray1};
@@ -14,27 +13,16 @@ const Container = styled.div`
   width: 100%;
 `
 
-type ToDoListProps = {
-  toDoList: ToDoDto[] | null
-  refresh: () => void
-}
-
-const ToDoList = ({ toDoList, refresh }: ToDoListProps) => {
-  const hasNoToDos = (toDoList?.length || 0) < 1
+const ToDoList = () => {
+  const { toDoList, hasNoToDos } = useToDoContext()
   return (
     <Container>
       {toDoList?.map((item) => (
-        <ToDoItem key={item.id} item={item} refresh={refresh} />
+        <ToDoItem key={item.id} item={item} />
       ))}
       {hasNoToDos && <NoToDoItem />}
     </Container>
   )
-}
-
-export const useWithToDoList = () => {
-  const { data: toDoList, isLoading: isToDoLoading, refresh } = getToDos()
-
-  return { toDoList, isToDoLoading, refresh }
 }
 
 export default ToDoList

@@ -6,18 +6,14 @@ export const getToDos = () => {
   return useApi<ToDoDto[]>('/api/todo')
 }
 
-type CreateToDoBody = {
+export type CreateToDoBody = {
   message: string
 }
 
-export const createToDo = (createTodoBody: CreateToDoBody) => {
-  return fetchApi({
-    path: 'api/todo',
-    method: 'POST',
-    body: createTodoBody,
-  })
+export const createToDoPost = (createTodoBody: CreateToDoBody) => {
+  return fetchApi({ path: 'api/todo', method: 'POST', body: createTodoBody })
 }
 
-export const deleteToDo = (id: string) => {
+export const deleteToDoPost = (id: string) => {
   return fetchApi({ path: `/api/todo/${id}/delete`, method: 'DELETE' })
 }
