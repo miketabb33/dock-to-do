@@ -1,6 +1,6 @@
 import React from 'react'
 
-type IconName = 'plus' | 'trash' | 'check' | 'edit'
+export type IconName = 'plus' | 'trash' | 'check' | 'edit'
 
 type IconProps = {
   iconName: IconName

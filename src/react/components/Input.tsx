@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { styles } from '../styles'
-import Icon from './Icon'
+import Icon, { IconName } from './Icon'
 import { useToDoContext } from '../contexts/ToDoProvider'
 
 const Container = styled.div`
@@ -44,17 +44,40 @@ type InputProps = {
   value: string
   setValue: (value: string) => void
   onClick: () => void
+  iconName: IconName
 }
 
-const Input = ({ value, setValue, onClick }: InputProps) => {
+const Input = ({ value, setValue, onClick, iconName }: InputProps) => {
   return (
     <Container>
       <InputWrapper value={value} onChange={(e) => setValue(e.target.value)} />
       <Button onClick={onClick}>
-        <Plus iconName="plus" />
+        <Plus iconName={iconName} />
       </Button>
     </Container>
   )
+}
+
+export const useEditToDoInput = (
+  initValue: string,
+  onComplete: () => void
+): InputProps => {
+  const [value, setValue] = useState(initValue)
+
+  const submitToDo = () => {
+    if (value.length >= 3) {
+      onComplete()
+    } else {
+      alert('To do needs to be at least 3 characters')
+    }
+  }
+
+  return {
+    value,
+    setValue,
+    onClick: submitToDo,
+    iconName: 'check',
+  }
 }
 
 export const useAddToDoInput = (): InputProps => {
@@ -74,6 +97,7 @@ export const useAddToDoInput = (): InputProps => {
     value,
     setValue,
     onClick: submitToDo,
+    iconName: 'plus',
   }
 }
 

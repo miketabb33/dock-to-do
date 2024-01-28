@@ -6,11 +6,11 @@ export const getToDos = () => {
   return useApi<ToDoDto[]>('/api/todo')
 }
 
-export type CreateToDoBody = {
+export type ToDoBody = {
   message: string
 }
 
-export const createToDoPost = (createTodoBody: CreateToDoBody) => {
+export const createToDoPost = (createTodoBody: ToDoBody) => {
   return fetchApi({ path: 'api/todo', method: 'POST', body: createTodoBody })
 }
 

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { styles } from '../styles'
 import { ToDoDto } from '../../dto/ToDoDto'
 import Icon from './Icon'
 import { useToDoContext } from '../contexts/ToDoProvider'
+import Input, { useEditToDoInput } from './Input'
 
 const Container = styled.div`
   display: flex;
@@ -56,12 +57,21 @@ type ToDoItemProps = {
 }
 
 const ToDoItem = ({ item }: ToDoItemProps) => {
-  const { deleteToDo } = useToDoContext()
+  const { isEditing, toggleEdit, deleteToDo, editToDoInput } =
+    useInToDoItem(item)
+
+  if (isEditing) {
+    return (
+      <Container>
+        <Input {...editToDoInput} />
+      </Container>
+    )
+  }
 
   return (
     <Container>
       <Text>{item.message}</Text>
-      <Button>
+      <Button onClick={toggleEdit}>
         <Edit iconName="edit" />
       </Button>
       <Button onClick={() => deleteToDo(item.id)}>
@@ -69,6 +79,14 @@ const ToDoItem = ({ item }: ToDoItemProps) => {
       </Button>
     </Container>
   )
+}
+
+const useInToDoItem = (item: ToDoDto) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const toggleEdit = () => setIsEditing((prev) => !prev)
+  const { deleteToDo } = useToDoContext()
+  const editToDoInput = useEditToDoInput(item.message, toggleEdit)
+  return { isEditing, editToDoInput, toggleEdit, deleteToDo }
 }
 
 export const NoToDoItem = () => {

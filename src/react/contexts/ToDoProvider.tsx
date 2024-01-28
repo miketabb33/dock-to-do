@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { ChildrenProps } from '../types/ChildrenProps'
 import {
-  CreateToDoBody,
+  ToDoBody,
   createToDoPost,
   deleteToDoPost,
   getToDos,
@@ -13,7 +13,7 @@ type ToDoContextValue = {
   hasNoToDos: boolean
   isLoading: boolean
   deleteToDo: (id: string) => void
-  createToDo: (body: CreateToDoBody) => void
+  createToDo: (body: ToDoBody) => void
 }
 
 const ToDoContext = createContext<ToDoContextValue>({
@@ -37,7 +37,7 @@ const ToDoContextProvider = ({ children }: ChildrenProps) => {
     })
   }
 
-  const createToDo = (body: CreateToDoBody) => {
+  const createToDo = (body: ToDoBody) => {
     setIsActionLoading(true)
     createToDoPost(body).finally(() => {
       setIsActionLoading(false)
