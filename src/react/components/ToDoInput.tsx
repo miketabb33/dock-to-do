@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Plus from '../Plus'
 import { styles } from '../styles'
-import { MakeRequest, useApi } from '../network/useApi'
+import { useApi } from '../network/useApi'
+import Icon from './Icon'
 
 const Container = styled.div`
   position: relative;
@@ -36,6 +36,12 @@ const Button = styled.button`
   border-bottom-right-radius: ${styles.borderRadius};
 `
 
+const Plus = styled(Icon)`
+  fill: white;
+  width: 2rem;
+  height: 2rem;
+`
+
 type CreateTodo = {
   message: string
 }
@@ -51,7 +57,7 @@ const ToDoInput = ({ input, setInput, onClick }: ToDoInputProps) => {
     <Container>
       <Input value={input} onChange={(e) => setInput(e.target.value)} />
       <Button onClick={onClick}>
-        <Plus />
+        <Plus iconName="plus" />
       </Button>
     </Container>
   )
