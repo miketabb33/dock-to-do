@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useComponentRequest } from '../network/useApi'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { styles } from '../styles'
+import ToDoItem, { NoToDoItem } from './ToDoItem'
 
 const Container = styled.div`
   background-color: ${styles.gray1};
@@ -13,26 +14,19 @@ const Container = styled.div`
   width: 100%;
 `
 
-const Item = styled.p`
-  font-size: 2rem;
-  padding: 1rem;
-  text-transform: capitalize;
-
-  &:not(:last-child) {
-    border-bottom: ${styles.border};
-  }
-`
-
 type ToDoListProps = {
   toDoList: ToDoDto[] | null
+  refresh: () => void
 }
 
-const ToDoList = ({ toDoList }: ToDoListProps) => {
+const ToDoList = ({ toDoList, refresh }: ToDoListProps) => {
+  const hasNoToDos = (toDoList?.length || 0) < 1
   return (
     <Container>
       {toDoList?.map((item) => (
-        <Item key={item.id}>{item.message}</Item>
+        <ToDoItem key={item.id} item={item} refresh={refresh} />
       ))}
+      {hasNoToDos && <NoToDoItem />}
     </Container>
   )
 }
@@ -43,6 +37,7 @@ export const useWithToDoList = () => {
     isLoading: isToDoLoading,
     refresh,
   } = useComponentRequest<ToDoDto[]>('/api/todo')
+
   return { toDoList, isToDoLoading, refresh: () => refresh({}) }
 }
 

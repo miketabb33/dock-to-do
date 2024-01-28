@@ -22,12 +22,24 @@ app.get('/api/todo', (req, res) => {
 })
 
 app.post('/api/todo', (req, res) => {
-  if (req.body.message) {
-    toDoList.push({ id: uuid(), message: req.body.message })
+  const message = req.body.message
+  if (message) {
+    toDoList.push({ id: uuid(), message })
     res.sendStatus(200)
   } else {
     res.sendStatus(400)
   }
+})
+
+app.delete('/api/todo/:id/delete', (req, res) => {
+  const id = req.params.id
+  if (id) {
+    const index = toDoList.findIndex((x) => x.id === id)
+    if (index >= 0) {
+      toDoList.splice(index, 1)
+      res.sendStatus(200)
+    } else res.sendStatus(404)
+  } else res.sendStatus(400)
 })
 
 app.get('*', (_, res) => {

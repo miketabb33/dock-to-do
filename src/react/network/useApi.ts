@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 type UseApiArgs = {
   path: string
-  method?: 'POST' | 'GET'
+  method?: 'POST' | 'GET' | 'DELETE'
 }
 
 export type MakeRequest<B> = {

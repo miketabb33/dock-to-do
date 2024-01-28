@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { styles } from '../styles'
 import { useApi } from '../network/useApi'
@@ -26,7 +26,7 @@ const Button = styled.button`
   top: 0;
   height: 95%;
   padding: 1rem;
-  background-color: #198754;
+  background-color: ${styles.green};
   border: 0;
   display: flex;
   justify-content: center;
@@ -71,7 +71,7 @@ export const useWithToDoInput = (onComplete: () => void) => {
     method: 'POST',
   })
 
-  const onClick = () => {
+  const submitToDo = () => {
     if (input.length >= 3) {
       makeRequest<CreateTodo>({ body: { message: input }, onComplete })
       setInput('')
@@ -80,12 +80,21 @@ export const useWithToDoInput = (onComplete: () => void) => {
     }
   }
 
+  const keySubmit = (e: KeyboardEvent) => {
+    if (e.code === 'Enter') submitToDo()
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', keySubmit)
+    return () => window.removeEventListener('keydown', keySubmit)
+  }, [input])
+
   return {
     isPostLoading: isLoading,
     inputBind: {
       input,
       setInput,
-      onClick,
+      onClick: submitToDo,
     },
   }
 }

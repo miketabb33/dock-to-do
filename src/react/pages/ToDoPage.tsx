@@ -21,7 +21,7 @@ const ToDoPage = () => {
     <Container>
       {isLoading && <Loading />}
       <Title />
-      <ToDoList toDoList={toDoList} />
+      <ToDoList toDoList={toDoList} refresh={refresh} />
       <ToDoInput {...inputBind} />
     </Container>
   )

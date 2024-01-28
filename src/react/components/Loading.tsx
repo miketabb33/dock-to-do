@@ -104,7 +104,7 @@ const Backdrop = styled.div`
 `
 
 const Container = styled.div`
-  background-color: ${styles.gray2};
+  background-color: ${styles.gray3};
   border: ${styles.border};
   border-radius: ${styles.borderRadius};
   width: 15rem;
