@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { styles } from '../styles'
-import { useApi } from '../network/useApi'
 import Icon from './Icon'
+import { createToDo } from '../network/client'
 
 const Container = styled.div`
   position: relative;
@@ -42,10 +42,6 @@ const Plus = styled(Icon)`
   height: 2rem;
 `
 
-type CreateTodo = {
-  message: string
-}
-
 type ToDoInputProps = {
   input: string
   setInput: (value: string) => void
@@ -64,36 +60,22 @@ const ToDoInput = ({ input, setInput, onClick }: ToDoInputProps) => {
 }
 
 export const useWithToDoInput = (onComplete: () => void) => {
-  const [input, setInput] = useState('')
-
-  const { makeRequest, isLoading } = useApi<null>({
-    path: 'api/todo',
-    method: 'POST',
-  })
+  const [value, setValue] = useState('')
 
   const submitToDo = () => {
-    if (input.length >= 3) {
-      makeRequest<CreateTodo>({ body: { message: input }, onComplete })
-      setInput('')
+    if (value.length >= 3) {
+      createToDo({ message: value })
+      setValue('')
+      onComplete()
     } else {
       alert('To do needs to be at least 3 characters')
     }
   }
 
-  const keySubmit = (e: KeyboardEvent) => {
-    if (e.code === 'Enter') submitToDo()
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', keySubmit)
-    return () => window.removeEventListener('keydown', keySubmit)
-  }, [input])
-
   return {
-    isPostLoading: isLoading,
     inputBind: {
-      input,
-      setInput,
+      input: value,
+      setInput: setValue,
       onClick: submitToDo,
     },
   }

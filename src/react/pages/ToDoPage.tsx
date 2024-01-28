@@ -14,8 +14,8 @@ const Container = styled.div`
 
 const ToDoPage = () => {
   const { refresh, toDoList, isToDoLoading } = useWithToDoList()
-  const { inputBind, isPostLoading } = useWithToDoInput(refresh)
-  const isLoading = isPostLoading || isToDoLoading
+  const { inputBind } = useWithToDoInput(refresh)
+  const isLoading = isToDoLoading
 
   return (
     <Container>

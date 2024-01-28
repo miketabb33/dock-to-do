@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { styles } from '../styles'
 import { ToDoDto } from '../../dto/ToDoDto'
 import Icon from './Icon'
-import { useApi } from '../network/useApi'
+import { deleteToDo } from '../network/client'
 
 const Container = styled.div`
   display: flex;
@@ -57,10 +57,9 @@ type ToDoItemProps = {
 }
 
 const ToDoItem = ({ item, refresh }: ToDoItemProps) => {
-  const { makeRequest } = useApi({
-    path: `/api/todo/${item.id}/delete`,
-    method: 'DELETE',
-  })
+  const deleteItem = () => {
+    deleteToDo(item.id).finally(refresh)
+  }
 
   return (
     <Container>
@@ -68,7 +67,7 @@ const ToDoItem = ({ item, refresh }: ToDoItemProps) => {
       <Button>
         <Edit iconName="edit" />
       </Button>
-      <Button onClick={() => makeRequest({ onComplete: refresh })}>
+      <Button onClick={deleteItem}>
         <Trash iconName="trash" />
       </Button>
     </Container>

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useComponentRequest } from '../network/useApi'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { styles } from '../styles'
 import ToDoItem, { NoToDoItem } from './ToDoItem'
+import { getToDos } from '../network/client'
 
 const Container = styled.div`
   background-color: ${styles.gray1};
@@ -32,13 +32,9 @@ const ToDoList = ({ toDoList, refresh }: ToDoListProps) => {
 }
 
 export const useWithToDoList = () => {
-  const {
-    data: toDoList,
-    isLoading: isToDoLoading,
-    refresh,
-  } = useComponentRequest<ToDoDto[]>('/api/todo')
+  const { data: toDoList, isLoading: isToDoLoading, refresh } = getToDos()
 
-  return { toDoList, isToDoLoading, refresh: () => refresh({}) }
+  return { toDoList, isToDoLoading, refresh }
 }
 
 export default ToDoList

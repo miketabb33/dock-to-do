@@ -1,50 +1,25 @@
 import { useEffect, useState } from 'react'
+import { fetchApi } from './fetchApi'
 
-type UseApiArgs = {
-  path: string
-  method?: 'POST' | 'GET' | 'DELETE'
-}
-
-export type MakeRequest<B> = {
-  body?: B
-  onComplete?: () => void
-}
-
-export const useApi = <T>({ path, method = 'GET' }: UseApiArgs) => {
+export const useApi = <T>(path: string) => {
   const [data, setData] = useState<T | null>(null)
-  const [isLoading, setIsLoading] = useState(method === 'GET')
+  const [isLoading, setIsLoading] = useState(true)
 
-  const fetchApi = async <B>(bodyData?: B) => {
-    const body = bodyData ? { body: JSON.stringify(bodyData) } : undefined
-    const response = await fetch(path, {
-      ...body,
-      method,
-      headers: { 'content-type': 'application/json' },
-    })
-    const json = await response.json()
-    return json
-  }
-
-  const makeRequest = <B>({ body, onComplete }: MakeRequest<B>) => {
+  const makeRequest = () => {
     setIsLoading(true)
-    fetchApi(body)
+    fetchApi({ path })
       .then((res) => {
         setData(res as T)
       })
       .catch((err: any) => {
-        console.log(err)
+        console.error(err)
       })
       .finally(() => {
-        if (onComplete) onComplete()
         setIsLoading(false)
       })
   }
 
-  return { data, isLoading, makeRequest }
-}
+  useEffect(makeRequest, [])
 
-export const useComponentRequest = <T>(path: string) => {
-  const { data, isLoading, makeRequest } = useApi<T>({ path, method: 'GET' })
-  useEffect(() => makeRequest({}), [])
   return { data, isLoading, refresh: makeRequest }
 }
