@@ -8,6 +8,7 @@ import { useApi } from '../network/useApi'
 const Container = styled.div`
   display: flex;
   align-items: center;
+  gap: 1rem;
 
   &:not(:last-child) {
     border-bottom: ${styles.border};
@@ -23,6 +24,12 @@ const Text = styled.p`
 
 const Trash = styled(Icon)`
   fill: ${styles.red};
+  height: 2rem;
+  width: 2rem;
+`
+
+const Edit = styled(Icon)`
+  fill: ${styles.teal};
   height: 2rem;
   width: 2rem;
 `
@@ -58,6 +65,9 @@ const ToDoItem = ({ item, refresh }: ToDoItemProps) => {
   return (
     <Container>
       <Text>{item.message}</Text>
+      <Button>
+        <Edit iconName="edit" />
+      </Button>
       <Button onClick={() => makeRequest({ onComplete: refresh })}>
         <Trash iconName="trash" />
       </Button>
