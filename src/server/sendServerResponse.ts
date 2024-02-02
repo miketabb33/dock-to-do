@@ -9,7 +9,7 @@ type SendResponseArgs = {
 }
 
 export const sendResponse = ({ res, code, data, error }: SendResponseArgs) => {
-  res.status(code).json(getServerResponse(data, error)).send()
+  res.status(code).json(getServerResponse(data, error))
 }
 
 const getServerResponse = (data?: any, error?: any): ResponseDto => {

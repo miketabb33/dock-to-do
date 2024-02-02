@@ -1,31 +1,27 @@
-import mysql from 'mysql'
 import { uuid } from '../uuid'
 import { ToDoDto } from '../dto/ToDoDto'
+import { Client } from 'pg'
 
-const connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'my_user',
-  password: 'sandwich123',
+const client = new Client({
+  database: 'postgres',
 })
 
-const connectToDatabase = () => {
-  connection.connect((err) => {
-    if (err) {
-      console.error('MY SQL: error connecting: ' + err.stack)
-      return
-    }
-    console.log('MY SQL: connected as id ' + connection.threadId)
-  })
+const connectToDatabase = async () => {
+  try {
+    await client.connect()
+    console.log('Postgres Successfully Connected')
+  } catch (err) {
+    console.error(`MY SQL: error connecting: ${err}`)
+  }
 }
 
 const runDatabaseSchema = () => {
-  connection.query('CREATE DATABASE IF NOT EXISTS todo;')
-  connection.query(`
-    CREATE TABLE IF NOT EXISTS todo.list (
-      id VARCHAR(50) NOT NULL,
-      message VARCHAR(255) NOT NULL,
-      PRIMARY KEY (id)
-    );`)
+  client.query(`
+  CREATE TABLE IF NOT EXISTS list (
+    id VARCHAR(50) NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+  );`)
 }
 
 export const setupDatabase = () => {
@@ -33,33 +29,28 @@ export const setupDatabase = () => {
   runDatabaseSchema()
 }
 
-export const getToDos = async () => {
-  const results = await query(`SELECT * FROM todo.list`)
-  const toDos: ToDoDto[] = results.map((item: any) => {
-    return {
-      id: item.id,
-      message: item.message,
-    }
-  })
-  return toDos
-}
+export class ToDoDatabase {
+  getToDos = async (): Promise<ToDoDto[]> => {
+    const results = await client.query('SELECT * FROM list;')
+    const items: ToDoDto[] = results.rows
+    return items
+  }
 
-export const createToDo = (message: string) => {
-  query(`
-    INSERT INTO todo.list(id,message)
-    VALUES ('${uuid()}', '${message}');
-  `)
-}
+  createToDo = async (message: string) => {
+    await client.query(`
+      INSERT INTO list(id, message)
+      VALUES ('${uuid()}', '${message}');
+    `)
+  }
 
-const query = (q: string): Promise<any> => {
-  return new Promise((res, rej) => {
-    connection.query(q, (err, rows) => {
-      if (err) {
-        console.error(err.stack)
-        rej(new Error(err.message))
-        return
-      }
-      res(rows)
-    })
-  })
+  deleteToDo = async (id: string) => {
+    await client.query(`DELETE FROM list WHERE id='${id}';`)
+  }
+
+  editToDo = async (id: string, message: string) => {
+    await client.query(`
+      UPDATE list
+      SET message = '${message}'
+      WHERE id = '${id}';`)
+  }
 }

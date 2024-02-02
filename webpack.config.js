@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const webpack = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
@@ -32,5 +33,6 @@ module.exports = {
         { from: 'src/resources/', to: './public' },
       ],
     }),
+    new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
   ],
 }
