@@ -21,8 +21,8 @@ ToDoRouter.post('/', async (req, res) => {
     try {
       await toDoDatabase.createToDo(message)
       sendResponse({ res, code: 200 })
-    } catch {
-      sendResponse({ res, code: 400, error: 'Data was unable to post' })
+    } catch (e) {
+      sendResponse({ res, code: 400, error: `Data was unable to post: ${e}` })
     }
   } else {
     sendResponse({ res, code: 400, error: 'Bad Endpoint' })

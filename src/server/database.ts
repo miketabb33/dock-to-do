@@ -17,11 +17,12 @@ const connectToDatabase = async () => {
 
 const runDatabaseSchema = () => {
   client.query(`
-  CREATE TABLE IF NOT EXISTS list (
-    id VARCHAR(50) NOT NULL,
-    message VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-  );`)
+    CREATE TABLE IF NOT EXISTS list (
+      id VARCHAR(50) NOT NULL,
+      message VARCHAR(255) NOT NULL,
+      created_on timestamp NOT NULL,
+      PRIMARY KEY (id)
+    );`)
 }
 
 export const setupDatabase = () => {
@@ -33,14 +34,18 @@ export class ToDoDatabase {
   getToDos = async (): Promise<ToDoDto[]> => {
     const results = await client.query('SELECT * FROM list;')
     const items: ToDoDto[] = results.rows
-    return items
+    const sortedItems = items.sort((a, b) => {
+      const aNum = new Date(a.created_on).getTime()
+      const bNum = new Date(b.created_on).getTime()
+      return aNum - bNum
+    })
+    return sortedItems
   }
 
   createToDo = async (message: string) => {
-    await client.query(`
-      INSERT INTO list(id, message)
-      VALUES ('${uuid()}', '${message}');
-    `)
+    const now = new Date()
+    const q = 'INSERT INTO list(id, message, created_on) VALUES ($1, $2, $3)'
+    await client.query(q, [uuid(), message, now])
   }
 
   deleteToDo = async (id: string) => {
