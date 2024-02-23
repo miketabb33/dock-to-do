@@ -3,7 +3,10 @@ import { ToDoDto } from '../dto/ToDoDto'
 import { Pool } from 'pg'
 
 const pool = new Pool({
-  database: 'postgres',
+  host: 'db',
+  user: 'postgres',
+  database: 'example',
+  password: 'password123',
 })
 
 const connectToDatabase = async () => {
