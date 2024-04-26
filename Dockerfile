@@ -35,7 +35,7 @@ RUN npm run build
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
 # where the necessary files are copied from the build stage.
-FROM --platform=linux/amd64 base as final
+FROM base as final
 
 ENV NODE_ENV production
 USER node
