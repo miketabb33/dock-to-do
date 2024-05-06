@@ -1,6 +1,7 @@
-import { uuid } from '../uuid'
-import { ToDoDto } from '../dto/ToDoDto'
+import { uuid } from '../../uuid'
+import { ToDoDto } from '../../dto/ToDoDto'
 import { Pool } from 'pg'
+import { IToDoDatabase } from './IToDoDatabase'
 
 const pool = new Pool({
   host: 'db',
@@ -33,7 +34,7 @@ export const setupDatabase = () => {
   runDatabaseSchema()
 }
 
-export class ToDoDatabase {
+export class ToDoDatabase implements IToDoDatabase {
   getToDos = async (): Promise<ToDoDto[]> => {
     const results = await pool.query('SELECT * FROM list;')
     const items: ToDoDto[] = results.rows

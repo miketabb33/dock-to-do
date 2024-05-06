@@ -1,10 +1,9 @@
-import { ToDoDatabase } from './database'
+import { toDoDatabase } from './database/database'
 import { sendResponse } from './sendServerResponse'
 import { Router } from 'express'
 
 export const TO_DO_PATH = '/api/todo'
 const ToDoRouter = Router()
-const toDoDatabase = new ToDoDatabase()
 
 ToDoRouter.get('/', async (_, res) => {
   try {

@@ -2,6 +2,7 @@
 /dist
 /tmp
 /out-tsc
+/db
 
 # Runtime data
 pids
@@ -87,5 +88,3 @@ lerna-debug.log
 # System Files
 .DS_Store
 Thumbs.db
-
-db
