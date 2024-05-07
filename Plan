@@ -1,0 +1,12 @@
+Dev:
+
+- Use docker compose
+- Pass connection string in via secret file from docker compose
+
+Prod:
+
+- Build image without docker compose
+- Github CI can pass connection string into docker container, secret file.
+  ~ Run TEST integration test
+- Github CI Publish Image
+- Have render redeploy new images on publish.

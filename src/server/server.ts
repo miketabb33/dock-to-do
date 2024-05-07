@@ -1,10 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-import { ToDoDatabase, setupDatabase } from './database/ToDoDatabase'
 import ToDoRouter, { TO_DO_PATH } from './ToDoRouter'
-import { IToDoDatabase } from './database/IToDoDatabase'
-import { InMemoryDB } from './database/InMemoryDatabase'
 
 const app = express()
 const port = process.env.PORT || 3000

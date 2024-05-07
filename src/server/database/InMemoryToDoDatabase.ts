@@ -2,7 +2,7 @@ import { ToDoDto } from '../../dto/ToDoDto'
 import { uuid } from '../../uuid'
 import { IToDoDatabase } from './IToDoDatabase'
 
-export class InMemoryDB implements IToDoDatabase {
+export class InMemoryToDoDatabase implements IToDoDatabase {
   items: ToDoDto[] = []
 
   getToDos = async (): Promise<ToDoDto[]> => {
