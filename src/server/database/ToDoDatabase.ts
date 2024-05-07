@@ -2,12 +2,10 @@ import { uuid } from '../../uuid'
 import { ToDoDto } from '../../dto/ToDoDto'
 import { Pool } from 'pg'
 import { IToDoDatabase } from './IToDoDatabase'
+import { ENV } from '../../environment'
 
 const pool = new Pool({
-  host: 'db',
-  user: 'postgres',
-  database: 'example',
-  password: 'password123',
+  connectionString: ENV.postgresConnectionString,
 })
 
 const connectToDatabase = async () => {

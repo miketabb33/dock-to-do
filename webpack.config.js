@@ -33,6 +33,9 @@ module.exports = {
         { from: 'src/resources/', to: './public' },
       ],
     }),
+    new webpack.DefinePlugin({
+      SITE_ENV: JSON.stringify(process.env.SITE_ENV),
+    }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
   ],
 }

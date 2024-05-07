@@ -30,7 +30,10 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     npm ci
 
 COPY . .
+
+# Toggle between these to use local/prod databases
 RUN npm run build
+# RUN npm run build:prod
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies

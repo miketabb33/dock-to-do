@@ -1,10 +1,9 @@
+import { ENV } from '../../environment'
 import { InMemoryDB } from './InMemoryDatabase'
 import { ToDoDatabase, setupDatabase } from './ToDoDatabase'
 
-const useInMemoryDb = true
-
 const configureDatabase = () => {
-  if (useInMemoryDb) {
+  if (ENV.useInMemoryDatabase) {
     return new InMemoryDB()
   } else {
     setupDatabase()
