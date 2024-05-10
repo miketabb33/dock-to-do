@@ -46,12 +46,17 @@ type InputProps = {
   setValue: (value: string) => void
   onClick: () => void
   iconName: IconName
+  id?: string
 }
 
-const Input = ({ value, setValue, onClick, iconName }: InputProps) => {
+const Input = ({ value, setValue, onClick, iconName, id }: InputProps) => {
   return (
     <Container>
-      <InputWrapper value={value} onChange={(e) => setValue(e.target.value)} />
+      <InputWrapper
+        id={id}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
       <Button onClick={onClick}>
         <Plus iconName={iconName} />
       </Button>

@@ -28,7 +28,7 @@ const ToDoPage = () => {
       <Title />
       <ToDoList />
       <AddToDoContainer>
-        <Input {...addToDoInput} />
+        <Input id="Add-Input" {...addToDoInput} />
       </AddToDoContainer>
     </Container>
   )
