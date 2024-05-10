@@ -6,7 +6,20 @@ on:
       - 'master'
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create postgres pwd file
+        run: |
+          mkdir /home/runner/work/dock-to-do/dock-to-do/db
+          echo "${{ secrets.LOCAL_PG_PWD }}" > /home/runner/work/dock-to-do/dock-to-do/db/password.txt
+      - name: Start Container
+        run: docker compose up -d --build
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,4 +39,4 @@ jobs:
           build-args: |
             POSTGRES_CONNECTION=${{ secrets.POSTGRES_CONNECTION }}
           push: true
-          tags: miketabb33/dock-to-do-server:amd
+          tags: ${{ secrets.DOCKERHUB_USERNAME  }}/dock-to-do-server:amd
