@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "build:prod": "SITE_ENV=production webpack --mode production",
+    "build": "POSTGRES_CONNECTION=$POSTGRES_CONNECTION webpack --mode production",
     "start": "node dist/server.js",
-    "bw": "webpack --mode development --watch",
+    "bw": "POSTGRES_CONNECTION=$POSTGRES_CONNECTION webpack --mode development --watch",
     "sw": "node --watch dist/server.js"
   },
   "author": "",

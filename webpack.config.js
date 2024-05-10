@@ -34,7 +34,7 @@ module.exports = {
       ],
     }),
     new webpack.DefinePlugin({
-      SITE_ENV: JSON.stringify(process.env.SITE_ENV),
+      POSTGRES_CONNECTION: JSON.stringify(process.env.POSTGRES_CONNECTION),
     }),
     new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ }),
   ],

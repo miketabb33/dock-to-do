@@ -21,6 +21,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 ################################################################################
 # Create a stage for building the application.
 FROM deps as build
+ARG POSTGRES_CONNECTION=missing_connection_string
 
 # Download additional development dependencies before building, as some projects require
 # "devDependencies" to be installed to build. If you don't need this, remove this step.
@@ -32,8 +33,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 COPY . .
 
 # Toggle between these to use local/prod databases
-RUN npm run build
-# RUN npm run build:prod
+# RUN npm run build
+RUN POSTGRES_CONNECTION=${POSTGRES_CONNECTION} npm run build
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
@@ -51,3 +52,5 @@ COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 3000
 CMD npm start
+
+# docker build  --no-cache -t test --build-arg POSTGRES_CONNECTION=1.19 .

@@ -2,6 +2,8 @@ services:
   server:
     build:
       context: .
+      args:
+        - POSTGRES_CONNECTION=postgresql://postgres:password123@db/example
     environment:
       NODE_ENV: production
     ports:
