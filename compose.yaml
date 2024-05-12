@@ -17,8 +17,8 @@ services:
     user: postgres
     secrets:
       - db-password
-    volumes:
-      - db-data:/var/lib/postgresql/data
+    # volumes:
+    #   - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=example
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
@@ -30,8 +30,8 @@ services:
       timeout: 5s
       retries: 5
 
-volumes:
-  db-data:
+# volumes:
+#   db-data:
 secrets:
   db-password:
     file: db/password.txt

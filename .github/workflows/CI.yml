@@ -17,6 +17,10 @@ jobs:
           echo "${{ secrets.LOCAL_PG_PWD }}" > /home/runner/work/dock-to-do/dock-to-do/db/password.txt
       - name: Start Container
         run: docker compose up -d --build
+      - name: Install Dependencies
+        run: npm install
+      - name: e2e Test
+        run: npm run cypress
 
   build:
     needs: test

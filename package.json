@@ -8,6 +8,7 @@
     "start": "node dist/server.js",
     "bw": "POSTGRES_CONNECTION=$POSTGRES_CONNECTION webpack --mode development --watch",
     "sw": "node --watch dist/server.js",
+    "cypress": "cypress run",
     "cypress:open": "cypress open"
   },
   "author": "",

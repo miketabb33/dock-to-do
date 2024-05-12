@@ -57,7 +57,7 @@ const Input = ({ value, setValue, onClick, iconName, id }: InputProps) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <Button onClick={onClick}>
+      <Button id={`${id}-Button`} onClick={onClick}>
         <Plus iconName={iconName} />
       </Button>
     </Container>
