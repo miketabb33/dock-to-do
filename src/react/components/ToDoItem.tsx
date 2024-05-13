@@ -54,29 +54,31 @@ const Button = styled.button`
 
 type ToDoItemProps = {
   item: ToDoDto
+  index: number
 }
 
-const ToDoItem = ({ item }: ToDoItemProps) => {
+const ToDoItem = ({ item, index }: ToDoItemProps) => {
   const { isEditing, toggleEdit, deleteToDo, editToDoInput } =
     useInToDoItem(item)
 
-  if (isEditing) {
-    return (
-      <Container>
-        <Input {...editToDoInput} />
-      </Container>
-    )
-  }
-
   return (
-    <Container>
-      <Text>{item.message}</Text>
-      <Button onClick={toggleEdit}>
-        <Edit iconName="edit" />
-      </Button>
-      <Button onClick={() => deleteToDo(item.id)}>
-        <Trash iconName="trash" />
-      </Button>
+    <Container id={`To-Do-Item-${index}`}>
+      {isEditing ? (
+        <Input id={`Edit-Input-${index}`} {...editToDoInput} />
+      ) : (
+        <>
+          <Text>{item.message}</Text>
+          <Button id={`Edit-Button-${index}`} onClick={toggleEdit}>
+            <Edit iconName="edit" />
+          </Button>
+          <Button
+            id={`Trash-Button-${index}`}
+            onClick={() => deleteToDo(item.id)}
+          >
+            <Trash iconName="trash" />
+          </Button>
+        </>
+      )}
     </Container>
   )
 }
@@ -92,7 +94,7 @@ const useInToDoItem = (item: ToDoDto) => {
 export const NoToDoItem = () => {
   return (
     <Container>
-      <Text>No To Do's</Text>
+      <Text id="No-To-Do">No To Do's</Text>
     </Container>
   )
 }

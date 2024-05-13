@@ -16,9 +16,9 @@ const Container = styled.div`
 const ToDoList = () => {
   const { toDoList, hasNoToDos } = useToDoContext()
   return (
-    <Container>
-      {toDoList?.map((item) => (
-        <ToDoItem key={item.id} item={item} />
+    <Container id="To-Do-Items">
+      {toDoList?.map((item, i) => (
+        <ToDoItem key={item.id} item={item} index={i + 1} />
       ))}
       {hasNoToDos && <NoToDoItem />}
     </Container>
