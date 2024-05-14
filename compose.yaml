@@ -3,6 +3,7 @@ services:
     build:
       context: .
       args:
+        # Future considerations: pass the connections string in as secret or as an env, instead of args
         - POSTGRES_CONNECTION=postgresql://postgres:password123@db/example
     environment:
       NODE_ENV: production

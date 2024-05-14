@@ -26,6 +26,7 @@ const ToDoPage = () => {
     <Container>
       {isLoading && <Loading />}
       <Title />
+      <h3>A to do list to keep your tasks straight</h3>
       <ToDoList />
       <AddToDoContainer>
         <Input id="Add-Input" {...addToDoInput} />

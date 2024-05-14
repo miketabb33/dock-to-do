@@ -34,6 +34,8 @@ COPY . .
 
 # Toggle between these to use local/prod databases
 # RUN npm run build
+# Future considerations: pass the connection string in as a server env variable
+# example concept: CMD npm start POSTGRES_CONNECTION=${POSTGRES_CONNECTION}
 RUN POSTGRES_CONNECTION=${POSTGRES_CONNECTION} npm run build
 
 ################################################################################
