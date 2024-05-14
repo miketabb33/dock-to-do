@@ -3,6 +3,10 @@ import { id } from './idMap'
 describe('template spec', () => {
   it('passes', () => {
     cy.visit('http://localhost:3000')
+
+    cy.get(id.toDoItem(1)).should('have.text', 'Seeded Value')
+    cy.get(id.trashButton(1)).click()
+
     cy.get(id.noToDo)
 
     const item1 = 'clean the car'
